@@ -1,64 +1,88 @@
-'use client'
-import React, { useState } from 'react';
-import Style from "@/app/register/register.module.css";
-import Card from "@/components/ui/Card";
-export default function RegisterPage() {
-    const [firstName, setFirstName] = useState('');
-    const [lastName,setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+'use client';
+import React, { useState  } from 'react';
+import Card from '@/components/ui/Card';
+import Styles from '@/app/register/register.module.css';
 
+export default function RegisterPage () {
+    const [form, setForm] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword:"",
+    });
+    const {firstName, lastName, email, password, confirmPassword} = form;
+    const [error, seterror] = useState("");
+    const handleSubmitForm =  (e) => {
+        e.preventDefault();
 
-   const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
-   const foundUsers = existingUsers.find((user) => user.email === email );
-   if (foundUsers) {
-    alert("User found")
-    return
-   };
-   const newUser = {
-    id : Date.now(),
-    firstName,
-    lastName,
-    email,
-    password
-   };
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        const existingUser = users.find(item => item.email === email);
+        if (existingUser) {
+            alert("User already exists")
+            return;
+        }
 
-   const updatedUser = [
-    ...existingUsers, newUser
-   ]
-
-   localStorage.setItem("users", JSON.stringify(updatedUser));
-
-   setFirstName('');
-   setLastName('');
-   setEmail('');
-   setPassword('');
-      
+        // Validation of password
+        if(password !== confirmPassword) {
+            alert("Password do not match")
+            return;
+        }
+     
+        const newUser = {
+            id: Date.now(),
+            firstName: form.firstName,
+            lastName: form.lastName,
+            email: form.email,
+            password: form.password,
+        };
+        const updatedUser = [...users, newUser];
+        localStorage.setItem("users", JSON.stringify(updatedUser));
+        
+        alert("Registration successful");
+        // reset the variable fields
+        setForm({
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+        })
+     
+        alert(error.message)
+     
+    }
+    
     return(
-        <Card className="max-w-lg mx-auto">
-            <form action="submit-form" onSubmit={handleSubmitForm}>
+        <Card>
+            <h1>Registratio form</h1>
+            <div className={Styles.registerForm}>
+            <form onSubmit={handleSubmitForm}>
+                <label htmlFor="firstName"> First Name</label>
+                <input id='firstName' type="text" placeholder='Enter First Name' value={form.firstName} 
+                onChange={(e) => setForm({...form, firstName:e.target.value})} />
 
-            <p className="text-2xl font-bold">Register Page</p>
-            <div className={Style.registerForm}>
-            <label htmlFor="firstName">First Name</label>
-            <input type="text" placeholder='Enter First Name' value={firstName} 
-            onChange={((e) =>setFirstName(e.target.value))} />
-            <label htmlFor="lastName">Last Name</label>
-            <input type="text" placeholder='Enter Last Name'value={lastName} 
-            onChange={((e) => setLastName(e.target.value))}/>
-            <label htmlFor="email">Email</label>
-            <input type="text" placeholder='Enter email (john@example.com)'value={email} 
-            onChange={((e) => setEmail(e.target.value))}/>
-            <label htmlFor="password">Password</label>
-            <input type="text" minLength={8} placeholder='Enter password i.e. Ghe67#@!' value={password} 
-            onChange={((e) => setPassword(e.target.value))}/>
-                
-            </div>
-      <button type='submit'>Register New User</button>
+                <label htmlFor="lastname">Last Name</label>
+                <input id='lastName' type="text" placeholder='Enter last name here' value={form.lastName}
+                onChange={(e) => setForm({...form, lastName:e.target.value})} />
+
+                <label htmlFor="email">Email</label>
+                <input id='email' type="email" placeholder='Enter email here' value={form.email}
+                onChange={(e) => setForm({...form, email:e.target.value})} />
+
+                <label htmlFor="password">Password</label>
+                <input id='password' type="password" placeholder='Enter your password' value={form.password}
+                onChange={(e) => setForm({...form, password:e.target.value})} />
+
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <input id='confirmPassword' type="password" placeholder='Confirm your password' value={form.confirmPassword}
+                onChange={(e) => setForm({...form, confirmPassword:e.target.value})} />
+            <button type='submit'>Register</button>
             </form>
 
-    </Card>
-    )
+            </div>
+        </Card>
 
+
+    );
 }
-
