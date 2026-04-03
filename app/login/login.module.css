@@ -1,0 +1,15 @@
+.loginContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: cornsilk;
+    color: black;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: xx-large;
+    column-gap: 10px;
+
+}
+.button{
+    border: 1px soild blue;
+}
