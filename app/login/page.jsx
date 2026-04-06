@@ -2,7 +2,7 @@
 import React, { useState }  from 'react';
 import Style from '@/app/login/login.module.css';
 import Card from '@/components/ui/Card';
-import {loginUser} from "@/services/authServices";
+import {loginUser} from "@/services/authService";
 export default function LoginPage() {
     const [form, setForm] = useState({
         email : "",

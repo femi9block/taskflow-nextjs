@@ -1,4 +1,3 @@
-'use client'
 
 export function registerUser (data) {
     const users = JSON.parse(localStorage.getItem("users")) || [];
@@ -8,6 +7,7 @@ export function registerUser (data) {
             success: false, message: "Email already exists"
         };
     };
+    
     users.push(data);
     localStorage.setItem("users", JSON.stringify(users));
     return {

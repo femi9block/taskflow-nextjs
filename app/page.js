@@ -1,6 +1,6 @@
 import LoginPage from "./login/page";
 import RegisterPage from "./register/page";
-
+import Navbar from "@/components/Navbar/Navbar";
 
 export default function Home() {
   return (
@@ -8,9 +8,10 @@ export default function Home() {
       <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
         <div>
           <h1>
-            hello Wecolme home
+            hello Welcome home
           </h1>
         </div>
+        <Navbar/>
       </main>
     </div>
   );
